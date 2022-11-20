@@ -22,8 +22,7 @@ kospi50_code = [ '005930', '373220', '000660', '207940', '051910', '006400', '00
                 '034020', '259960', '009150', '011200', '051900', '329180', '036570', '018260', '010950', '003490', 
                 '030200', '009830', '000810', '316140', '377300', '066970', '024110', '011070', '302440', '090430' ]
 
-
-
+kospi_data = {}
 # 2. 해당 년도에 상장되었는지 확인하는 함수
 
 # 현재 코스피 50의 각 종목별 상장일자가 다르기때문에 데이터의 최초 일자가 다 다르기때문,
@@ -74,16 +73,16 @@ def getExportYear(year):
 
 
 # 3,4에서 구한 데이터로 상관계수를 구해서 dataframe에 저장한다.
-df = pandas.DataFrame(index=range(2001, 2021), columns=kospi50_code);
+df = pandas.DataFrame(index=range(2019, 2020), columns=kospi50_code);
 processCnt = 1
-for year in range(2001, 2021):
+for year in range(2018, 2021):
         for code in kospi50_code:
             if(checkIsOpened(code, str(year))):
                 monthlyTotal = getMonthlyTotal(code,str(year))
                 exportYear = getExportYear(year)
                 if (len(monthlyTotal) == len (exportYear)):
-                    df.loc[str(year), code] = scs.pearsonr(monthlyTotal, exportYear).statistic
-            print(processCnt/100)    
+                    df.loc[year, code] = scs.pearsonr(monthlyTotal, exportYear).statistic
+            print(processCnt/1000)    
             processCnt+= 1
 
 
